@@ -41,6 +41,7 @@ get_header();
 </template>
 
 <main id="main" class="site-main"></main><!-- #main -->
+
 		
 <style>
 
@@ -216,7 +217,8 @@ get_header();
         visProjekter();
         opretKnapper();
     }
-
+    
+    // Her opretter jeg funktionen knapper samt knapperne selv, som jeg giver et indlejret billede
     function opretKnapper(){
         verdensml.forEach(vm =>{
             document.querySelector("#filtrering").innerHTML += `<button class="filter" data-projekt="${vm.id}"><img src="${vm.verdensbillede.guid}" alt="" class="billede" /></button>`
@@ -224,6 +226,7 @@ get_header();
         addEventListenersToButtons();
     }
 
+    // Her tjekker jeg, om der bliver clicket på knapperne, samt definerer, hvad der skal ske derefter
     function addEventListenersToButtons(){
         document.querySelectorAll("#filtrering button").forEach(elm =>{
             elm.addEventListener("click", filtrering);
