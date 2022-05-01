@@ -65,9 +65,11 @@ get_header();
 
     let projekt;
 
+    // Her linker jeg til WPdb
     const dbUrl = "http://pletfolio.dk/kea/09_cms/unesco_wp/wp-json/wp/v2/projekt/" + <?php echo get_the_ID() ?>;
     console.log(dbUrl)
 
+    // Async funktionen samt globale variabler defineres
     async function hentData(){
         console.log("hentData")
         const data = await fetch(dbUrl);
@@ -75,6 +77,7 @@ get_header();
         visProjekter();
     }
 
+    // Her laver jeg funktionen for visProjekter(), som viser de enkelte projekter i singleview
     function visProjekter(){
     console.log("visProjekt")
         document.querySelector(".billede").src = projekt.billede.guid;
