@@ -44,21 +44,44 @@ get_header();
 		
 <style>
 
-    .page .entry-title, .page-title {
+    h1 {
+        margin-top: 100px;
+        font-size: 2rem;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #3D8AA5;
+    }
+
+    @media only screen and (min-width: 480px) {
+        h1 {
+            margin-top: 10%;
+            font-size: 4rem;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #3D8AA5;
+        }
+    }
+
+    .page .page-title {
         margin-top: 45px;
         color: #222;
         font-size: 26px;
         font-size: 1.625rem;
         font-weight: 700;
         text-align: center;
-        font-family: Montserrat,sans-serif;
         text-transform: uppercase;
     }
 
-    #filtrering{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 50px;
+    #filtrering {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+        margin: 0 auto;
+        max-width: 85vw;
+        margin-bottom: 10px;
+        align-content: center;
     }
 
 
@@ -157,6 +180,7 @@ get_header();
 </style>
 
 <script>
+    "use strict";
 	// Tjekker om DOM'en er loaded før siden vises
     window.addEventListener("DOMContentLoaded", start);
     function start() {
@@ -179,6 +203,7 @@ get_header();
     let projekter;
     let filter = "alle";
     let verdensml;
+    let filterProjekt= "alle"
 
     // Henter json-data fra WordpressSB via fetch() fra to forskellige collections i samme database
     async function hentData() {
@@ -192,9 +217,9 @@ get_header();
         opretKnapper();
     }
 
-    function opretknapper(){
+    function opretKnapper(){
         verdensml.forEach(vm =>{
-            document.querySelector("#filtrering").innerHTML += `<button class="filter" data-projekt="${vm.id}">${vm.name}</button>`
+            document.querySelector("#filtrering").innerHTML += `<button class="filter" data-projekt="${vm.id}"><img src="${vm.verdensbillede.guid}" alt="" class="billede" /></button>`
         })
         addEventListenersToButtons();
     }
@@ -208,6 +233,7 @@ get_header();
 
     function filtrering(){
         filterProjekt = this.dataset.projekt;
+
         console.log(filterProjekt);
         visProjekter();
 
@@ -219,10 +245,10 @@ get_header();
         main.textContent = ""; // Her resetter jeg DOM'en ved at tilføje en tom string
         // for hver projekt i arrayet, skal der tjekkes om de opfylder filter-kravet og derefter vises i DOM'en.
         projekter.forEach((projekt) => {
-            if (filter == "alle" || projekt.verdensml.includes(parseInt(filterProjekt))) {
+            if (filterProjekt == "alle" || projekt.verdensml.includes(parseInt(filterProjekt))) {
                 const klon = template.cloneNode(true);
                 klon.querySelector(".billede").src = projekt.billede.guid;
-                klon.querySelector(".projektnavn").textContent = projekt.projektnavn.rendered;
+                klon.querySelector(".projektnavn").textContent = projekt.projektnavn;
                 //klon.querySelector(".skolenavn").textContent = projekt.skolenavn;
                 klon.querySelector(".kort_beskrivelse").textContent = projekt.kort_beskrivelse;
                 // tilføjer eventlistner til hvert article-element og lytter efter klik på artiklerne. Funktionen "visDetaljer" bliver kaldt ved klik.
